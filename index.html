@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Guessing Game 🎯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            color: #667eea;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .product-container {
+            margin-bottom: 30px;
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .price-input {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-excellent {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .result-good {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .result-far {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .actual-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .difference {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .game-over {
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 3em;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Price Guessing Game</h1>
+        <p class="subtitle">Can you guess the price?</p>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Round</div>
+                <div class="score-value" id="round">1/5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Streak</div>
+                <div class="score-value" id="streak">0🔥</div>
+            </div>
+        </div>
+
+        <div id="gameArea">
+            <div class="product-container">
+                <img id="productImage" class="product-image" src="" alt="Product">
+                <div class="product-name" id="productName"></div>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="guessInput" class="price-input" placeholder="$0.00" min="0" step="0.01">
+                <button class="btn btn-primary" id="guessBtn" onclick="submitGuess()">Guess!</button>
+            </div>
+
+            <div id="result" class="result"></div>
+
+            <button class="btn btn-secondary hidden" id="nextBtn" onclick="nextRound()">Next Product →</button>
+        </div>
+
+        <div id="gameOver" class="game-over hidden">
+            <div class="emoji" id="finalEmoji">🎉</div>
+            <h2>Game Over!</h2>
+            <div class="final-score" id="finalScore">0</div>
+            <p style="font-size: 1.2em; margin: 20px 0;">Total Points</p>
+            <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                name: "Apple AirPods Pro (2nd Gen)",
+                image: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400&h=300&fit=crop",
+                price: 249.00
+            },
+            {
+                name: "Sony WH-1000XM5 Headphones",
+                image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
+                price: 399.99
+            },
+            {
+                name: "Nintendo Switch OLED",
+                image: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400&h=300&fit=crop",
+                price: 349.99
+            },
+            {
+                name: "Instant Pot Duo 7-in-1",
+                image: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&h=300&fit=crop",
+                price: 89.99
+            },
+            {
+                name: "Kindle Paperwhite",
+                image: "https://images.unsplash.com/photo-1592503254549-d83d24a4dfab?w=400&h=300&fit=crop",
+                price: 139.99
+            },
+            {
+                name: "Dyson V11 Vacuum",
+                image: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=400&h=300&fit=crop",
+                price: 599.99
+            },
+            {
+                name: "Apple Watch Series 9",
+                image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop",
+                price: 429.00
+            },
+            {
+                name: "Bose SoundLink Speaker",
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop",
+                price: 149.00
+            }
+        ];
+
+        let currentRound = 0;
+        let score = 0;
+        let streak = 0;
+        let currentProduct;
+        let usedProducts = [];
+
+        function getRandomProduct() {
+            let availableProducts = products.filter((_, index) => !usedProducts.includes(index));
+            if (availableProducts.length === 0) {
+                availableProducts = products;
+                usedProducts = [];
+            }
+            const randomIndex = Math.floor(Math.random() * availableProducts.length);
+            const productIndex = products.indexOf(availableProducts[randomIndex]);
+            usedProducts.push(productIndex);
+            return products[productIndex];
+        }
+
+        function loadProduct() {
+            currentProduct = getRandomProduct();
+            document.getElementById('productImage').src = currentProduct.image;
+            document.getElementById('productName').textContent = currentProduct.name;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('nextBtn').classList.add('hidden');
+            document.getElementById('guessBtn').classList.remove('hidden');
+            document.getElementById('guessInput').disabled = false;
+        }
+
+        function submitGuess() {
+            const guess = parseFloat(document.getElementById('guessInput').value);
+            
+            if (!guess || guess <= 0) {
+                alert('Please enter a valid price!');
+                return;
+            }
+
+            const actualPrice = currentProduct.price;
+            const difference = Math.abs(guess - actualPrice);
+            const percentDiff = (difference / actualPrice) * 100;
+
+            let resultClass, message, points, emoji;
+
+            if (percentDiff <= 5) {
+                resultClass = 'result-excellent';
+                message = '🎯 Amazing! Almost perfect!';
+                points = 100;
+                emoji = '🎯';
+                streak++;
+            } else if (percentDiff <= 15) {
+                resultClass = 'result-good';
+                message = '👍 Pretty close!';
+                points = 50;
+                emoji = '👍';
+                streak++;
+            } else if (percentDiff <= 30) {
+                resultClass = 'result-good';
+                message = '😊 Not bad!';
+                points = 25;
+                emoji = '😊';
+                streak = 0;
+            } else {
+                resultClass = 'result-far';
+                message = '😅 Way off!';
+                points = 0;
+                emoji = '😅';
+                streak = 0;
+            }
+
+            score += points;
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${resultClass} show`;
+            resultDiv.innerHTML = `
+                <div style="font-size: 2em; margin-bottom: 10px;">${emoji}</div>
+                <div>${message}</div>
+                <div class="actual-price">Actual Price: $${actualPrice.toFixed(2)}</div>
+                <div class="difference">Your Guess: $${guess.toFixed(2)} (${guess > actualPrice ? '+' : ''}$${(guess - actualPrice).toFixed(2)})</div>
+                <div style="margin-top: 15px; font-size: 1.3em; font-weight: bold;">+${points} points!</div>
+            `;
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak + '🔥';
+            document.getElementById('guessBtn').classList.add('hidden');
+            document.getElementById('guessInput').disabled = true;
+
+            if (currentRound < 5) {
+                document.getElementById('nextBtn').classList.remove('hidden');
+            } else {
+                setTimeout(endGame, 2000);
+            }
+        }
+
+        function nextRound() {
+            currentRound++;
+            document.getElementById('round').textContent = `${currentRound}/5`;
+            loadProduct();
+        }
+
+        function endGame() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('gameOver').classList.remove('hidden');
+            document.getElementById('finalScore').textContent = score;
+            
+            let emoji = '🎉';
+            if (score >= 400) emoji = '🏆';
+            else if (score >= 300) emoji = '🌟';
+            else if (score >= 200) emoji = '👏';
+            else if (score >= 100) emoji = '😊';
+            else emoji = '😅';
+            
+            document.getElementById('finalEmoji').textContent = emoji;
+        }
+
+        function restartGame() {
+            currentRound = 0;
+            score = 0;
+            streak = 0;
+            usedProducts = [];
+            document.getElementById('score').textContent = '0';
+            document.getElementById('streak').textContent = '0🔥';
+            document.getElementById('round').textContent = '1/5';
+            document.getElementById('gameArea').classList.remove('hidden');
+            document.getElementById('gameOver').classList.add('hidden');
+            nextRound();
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('guessInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('guessBtn').classList.contains('hidden')) {
+                submitGuess();
+            }
+        });
+
+        // Initialize game
+        loadProduct();
+    </script>
+</body>
+</html>
