@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price Guessing Game 🎯</title>
+    <title>Price Wala - India Edition</title>
     <style>
         * {
             margin: 0;
@@ -12,152 +12,216 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'nyt-franklin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #f7f8f8;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+        }
+
+        .header {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .logo {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #121212;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            color: #6e6e6e;
+            font-size: 0.95em;
+            font-weight: 400;
         }
 
         .container {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid #d3d6da;
             max-width: 600px;
             width: 100%;
-            padding: 40px;
-            text-align: center;
+            margin: 0 auto;
+            padding: 0;
         }
 
-        h1 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .score-board {
+        .stats-bar {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            padding: 16px;
+            border-bottom: 1px solid #d3d6da;
+            background: #fafafa;
         }
 
-        .score-item {
+        .stat-item {
             text-align: center;
         }
 
-        .score-label {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+        .stat-label {
+            color: #6e6e6e;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
         }
 
-        .score-value {
-            color: #667eea;
-            font-size: 1.8em;
-            font-weight: bold;
+        .stat-value {
+            color: #121212;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .game-content {
+            padding: 32px 24px;
         }
 
         .product-container {
-            margin-bottom: 30px;
+            margin-bottom: 32px;
+        }
+
+        .product-image-wrapper {
+            width: 100%;
+            height: 320px;
+            background: #fafafa;
+            border: 1px solid #d3d6da;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
 
         .product-image {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background: #f8f9fa;
-            padding: 20px;
         }
 
         .product-name {
+            font-size: 1.25em;
+            color: #121212;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .product-category {
+            text-align: center;
+            color: #6e6e6e;
+            font-size: 0.9em;
+            margin-bottom: 24px;
+        }
+
+        .input-section {
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            font-size: 0.85em;
+            color: #6e6e6e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .rupee-symbol {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             font-size: 1.3em;
-            color: #333;
-            margin-bottom: 20px;
+            color: #121212;
             font-weight: 600;
         }
 
-        .input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
         .price-input {
-            padding: 15px 20px;
-            font-size: 1.2em;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            width: 200px;
-            text-align: center;
+            width: 100%;
+            padding: 16px 16px 16px 40px;
+            font-size: 1.3em;
+            border: 2px solid #d3d6da;
+            background: white;
+            font-weight: 600;
+            color: #121212;
+            transition: border-color 0.2s;
         }
 
         .price-input:focus {
             outline: none;
-            border-color: #764ba2;
+            border-color: #121212;
+        }
+
+        .price-input:disabled {
+            background: #f7f8f8;
+            color: #6e6e6e;
         }
 
         .btn {
-            padding: 15px 40px;
-            font-size: 1.1em;
+            width: 100%;
+            padding: 16px;
+            font-size: 1em;
             border: none;
-            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            font-family: inherit;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #121212;
             color: white;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        .btn-primary:hover:not(:disabled) {
+            background: #333;
+        }
+
+        .btn-primary:disabled {
+            background: #d3d6da;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
-            background: #28a745;
+            background: #6aaa64;
             color: white;
+            margin-top: 16px;
         }
 
         .btn-secondary:hover {
-            background: #218838;
-            transform: translateY(-2px);
+            background: #5a9a54;
         }
 
         .result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1.2em;
+            margin-top: 24px;
+            padding: 24px;
+            border-radius: 4px;
             display: none;
+            border-left: 4px solid;
         }
 
         .result.show {
             display: block;
-            animation: slideIn 0.5s;
+            animation: fadeIn 0.4s ease-in;
         }
 
-        @keyframes slideIn {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -166,32 +230,69 @@
         }
 
         .result-excellent {
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #c3e6cb;
+            background: #f5f9f5;
+            border-color: #6aaa64;
         }
 
         .result-good {
-            background: #fff3cd;
-            color: #856404;
-            border: 2px solid #ffeaa7;
+            background: #fef9e7;
+            border-color: #c9b458;
         }
 
         .result-far {
-            background: #f8d7da;
-            color: #721c24;
-            border: 2px solid #f5c6cb;
+            background: #fef5f5;
+            border-color: #787c7e;
         }
 
-        .actual-price {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin: 10px 0;
+        .result-emoji {
+            font-size: 2.5em;
+            margin-bottom: 12px;
         }
 
-        .difference {
+        .result-message {
             font-size: 1.1em;
-            margin-top: 10px;
+            font-weight: 600;
+            color: #121212;
+            margin-bottom: 16px;
+        }
+
+        .price-reveal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .price-box {
+            padding: 12px;
+            background: white;
+            border: 1px solid #d3d6da;
+            border-radius: 4px;
+        }
+
+        .price-box-label {
+            font-size: 0.75em;
+            color: #6e6e6e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .price-box-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #121212;
+        }
+
+        .points-earned {
+            margin-top: 16px;
+            padding: 12px;
+            background: #121212;
+            color: white;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            border-radius: 4px;
         }
 
         .hidden {
@@ -200,61 +301,130 @@
 
         .game-over {
             text-align: center;
+            padding: 48px 24px;
+        }
+
+        .game-over-emoji {
+            font-size: 5em;
+            margin-bottom: 24px;
+        }
+
+        .game-over-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #121212;
+            margin-bottom: 16px;
         }
 
         .final-score {
-            font-size: 3em;
-            color: #667eea;
-            margin: 20px 0;
+            font-size: 4em;
+            font-weight: 700;
+            color: #6aaa64;
+            margin: 24px 0;
         }
 
-        .emoji {
-            font-size: 4em;
-            margin: 20px 0;
+        .final-message {
+            font-size: 1.1em;
+            color: #6e6e6e;
+            margin-bottom: 32px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 32px 0;
+            text-align: left;
+        }
+
+        .stats-item {
+            padding: 16px;
+            background: #fafafa;
+            border: 1px solid #d3d6da;
+            border-radius: 4px;
+        }
+
+        .stats-item-label {
+            font-size: 0.85em;
+            color: #6e6e6e;
+            margin-bottom: 4px;
+        }
+
+        .stats-item-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #121212;
+        }
+
+        @media (max-width: 600px) {
+            .price-reveal {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎯 Price Guessing Game</h1>
-        <p class="subtitle">Can you guess the price?</p>
+    <div class="header">
+        <div class="logo">Price Wala</div>
+        <div class="tagline">The Daily Price Guessing Game</div>
+    </div>
 
-        <div class="score-board">
-            <div class="score-item">
-                <div class="score-label">Round</div>
-                <div class="score-value" id="round">1/5</div>
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-label">Round</div>
+                <div class="stat-value" id="round">1/5</div>
             </div>
-            <div class="score-item">
-                <div class="score-label">Score</div>
-                <div class="score-value" id="score">0</div>
+            <div class="stat-item">
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="score">0</div>
             </div>
-            <div class="score-item">
-                <div class="score-label">Streak</div>
-                <div class="score-value" id="streak">0🔥</div>
+            <div class="stat-item">
+                <div class="stat-label">Streak</div>
+                <div class="stat-value" id="streak">0</div>
             </div>
         </div>
 
-        <div id="gameArea">
+        <div id="gameArea" class="game-content">
             <div class="product-container">
-                <img id="productImage" class="product-image" src="" alt="Product">
+                <div class="product-image-wrapper">
+                    <img id="productImage" class="product-image" src="" alt="Product">
+                </div>
                 <div class="product-name" id="productName"></div>
+                <div class="product-category" id="productCategory"></div>
             </div>
 
-            <div class="input-group">
-                <input type="number" id="guessInput" class="price-input" placeholder="$0.00" min="0" step="0.01">
-                <button class="btn btn-primary" id="guessBtn" onclick="submitGuess()">Guess!</button>
+            <div class="input-section">
+                <label class="input-label">Your Guess</label>
+                <div class="input-wrapper">
+                    <span class="rupee-symbol">₹</span>
+                    <input type="number" id="guessInput" class="price-input" placeholder="0" min="0" step="1">
+                </div>
+                <button class="btn btn-primary" id="guessBtn" onclick="submitGuess()">Submit Guess</button>
             </div>
 
             <div id="result" class="result"></div>
 
-            <button class="btn btn-secondary hidden" id="nextBtn" onclick="nextRound()">Next Product →</button>
+            <button class="btn btn-secondary hidden" id="nextBtn" onclick="nextRound()">Next Product</button>
         </div>
 
         <div id="gameOver" class="game-over hidden">
-            <div class="emoji" id="finalEmoji">🎉</div>
-            <h2>Game Over!</h2>
+            <div class="game-over-emoji" id="finalEmoji">🎉</div>
+            <div class="game-over-title">Game Complete!</div>
             <div class="final-score" id="finalScore">0</div>
-            <p style="font-size: 1.2em; margin: 20px 0;">Total Points</p>
+            <div class="final-message" id="finalMessage">Points</div>
+            
+            <div class="stats-grid">
+                <div class="stats-item">
+                    <div class="stats-item-label">Best Streak</div>
+                    <div class="stats-item-value" id="bestStreak">0</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-item-label">Perfect Guesses</div>
+                    <div class="stats-item-value" id="perfectGuesses">0</div>
+                </div>
+            </div>
+
             <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
         </div>
     </div>
@@ -262,50 +432,102 @@
     <script>
         const products = [
             {
-                name: "Apple AirPods Pro (2nd Gen)",
-                image: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400&h=300&fit=crop",
-                price: 249.00
+                name: "boAt Airdopes 141",
+                category: "Electronics • Audio",
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop",
+                price: 1299
             },
             {
-                name: "Sony WH-1000XM5 Headphones",
-                image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
-                price: 399.99
+                name: "Noise ColorFit Pro 4 Smartwatch",
+                category: "Electronics • Wearables",
+                image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400&h=300&fit=crop",
+                price: 2499
             },
             {
-                name: "Nintendo Switch OLED",
-                image: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400&h=300&fit=crop",
-                price: 349.99
+                name: "Prestige Iris 750W Mixer Grinder",
+                category: "Home & Kitchen",
+                image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=300&fit=crop",
+                price: 3499
             },
             {
-                name: "Instant Pot Duo 7-in-1",
+                name: "Milton Duo DLX 1000 Thermosteel Bottle",
+                category: "Home & Kitchen",
+                image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=300&fit=crop",
+                price: 899
+            },
+            {
+                name: "Cello Opalware Dinner Set (27 pieces)",
+                category: "Home & Kitchen",
+                image: "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=400&h=300&fit=crop",
+                price: 2199
+            },
+            {
+                name: "Havells Instanio 3L Instant Water Heater",
+                category: "Home Appliances",
+                image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=300&fit=crop",
+                price: 5999
+            },
+            {
+                name: "Philips HL7756 750W Mixer Grinder",
+                category: "Home Appliances",
+                image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=300&fit=crop",
+                price: 4995
+            },
+            {
+                name: "Bajaj Majesty RCX 5 Rice Cooker",
+                category: "Home Appliances",
                 image: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&h=300&fit=crop",
-                price: 89.99
+                price: 1899
             },
             {
-                name: "Kindle Paperwhite",
-                image: "https://images.unsplash.com/photo-1592503254549-d83d24a4dfab?w=400&h=300&fit=crop",
-                price: 139.99
+                name: "Pigeon Favourite Induction Cooktop",
+                category: "Home Appliances",
+                image: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&h=300&fit=crop",
+                price: 1599
             },
             {
-                name: "Dyson V11 Vacuum",
-                image: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=400&h=300&fit=crop",
-                price: 599.99
+                name: "Amazon Echo Dot (5th Gen)",
+                category: "Electronics • Smart Home",
+                image: "https://images.unsplash.com/photo-1543512214-318c7553f230?w=400&h=300&fit=crop",
+                price: 4999
             },
             {
-                name: "Apple Watch Series 9",
-                image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop",
-                price: 429.00
+                name: "Realme Buds T300",
+                category: "Electronics • Audio",
+                image: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400&h=300&fit=crop",
+                price: 2199
             },
             {
-                name: "Bose SoundLink Speaker",
-                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop",
-                price: 149.00
+                name: "Portronics Toad 23 Wireless Mouse",
+                category: "Electronics • Accessories",
+                image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop",
+                price: 399
+            },
+            {
+                name: "Zebronics Gaming Keyboard",
+                category: "Electronics • Gaming",
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
+                price: 1299
+            },
+            {
+                name: "Syska 20000mAh Power Bank",
+                category: "Electronics • Accessories",
+                image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=300&fit=crop",
+                price: 1499
+            },
+            {
+                name: "Wipro 9W LED Bulb (Pack of 4)",
+                category: "Home & Lighting",
+                image: "https://images.unsplash.com/photo-1550985616-10810253b84d?w=400&h=300&fit=crop",
+                price: 399
             }
         ];
 
         let currentRound = 0;
         let score = 0;
         let streak = 0;
+        let bestStreak = 0;
+        let perfectGuesses = 0;
         let currentProduct;
         let usedProducts = [];
 
@@ -325,15 +547,21 @@
             currentProduct = getRandomProduct();
             document.getElementById('productImage').src = currentProduct.image;
             document.getElementById('productName').textContent = currentProduct.name;
+            document.getElementById('productCategory').textContent = currentProduct.category;
             document.getElementById('guessInput').value = '';
             document.getElementById('result').classList.remove('show');
             document.getElementById('nextBtn').classList.add('hidden');
             document.getElementById('guessBtn').classList.remove('hidden');
             document.getElementById('guessInput').disabled = false;
+            document.getElementById('guessBtn').disabled = false;
+        }
+
+        function formatIndianPrice(price) {
+            return '₹' + price.toLocaleString('en-IN');
         }
 
         function submitGuess() {
-            const guess = parseFloat(document.getElementById('guessInput').value);
+            const guess = parseInt(document.getElementById('guessInput').value);
             
             if (!guess || guess <= 0) {
                 alert('Please enter a valid price!');
@@ -348,28 +576,33 @@
 
             if (percentDiff <= 5) {
                 resultClass = 'result-excellent';
-                message = '🎯 Amazing! Almost perfect!';
+                message = 'Spot On! Incredible guess!';
                 points = 100;
                 emoji = '🎯';
                 streak++;
+                perfectGuesses++;
             } else if (percentDiff <= 15) {
                 resultClass = 'result-good';
-                message = '👍 Pretty close!';
+                message = 'Very Close! Well done!';
                 points = 50;
-                emoji = '👍';
+                emoji = '👏';
                 streak++;
             } else if (percentDiff <= 30) {
                 resultClass = 'result-good';
-                message = '😊 Not bad!';
+                message = 'Not Bad! Getting there!';
                 points = 25;
-                emoji = '😊';
+                emoji = '👍';
                 streak = 0;
             } else {
                 resultClass = 'result-far';
-                message = '😅 Way off!';
+                message = 'Way Off! Better luck next time!';
                 points = 0;
                 emoji = '😅';
                 streak = 0;
+            }
+
+            if (streak > bestStreak) {
+                bestStreak = streak;
             }
 
             score += points;
@@ -377,17 +610,30 @@
             const resultDiv = document.getElementById('result');
             resultDiv.className = `result ${resultClass} show`;
             resultDiv.innerHTML = `
-                <div style="font-size: 2em; margin-bottom: 10px;">${emoji}</div>
-                <div>${message}</div>
-                <div class="actual-price">Actual Price: $${actualPrice.toFixed(2)}</div>
-                <div class="difference">Your Guess: $${guess.toFixed(2)} (${guess > actualPrice ? '+' : ''}$${(guess - actualPrice).toFixed(2)})</div>
-                <div style="margin-top: 15px; font-size: 1.3em; font-weight: bold;">+${points} points!</div>
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-message">${message}</div>
+                <div class="price-reveal">
+                    <div class="price-box">
+                        <div class="price-box-label">Actual Price</div>
+                        <div class="price-box-value">${formatIndianPrice(actualPrice)}</div>
+                    </div>
+                    <div class="price-box">
+                        <div class="price-box-label">Your Guess</div>
+                        <div class="price-box-value">${formatIndianPrice(guess)}</div>
+                    </div>
+                </div>
+                <div class="price-box" style="margin-top: 12px;">
+                    <div class="price-box-label">Difference</div>
+                    <div class="price-box-value">${guess > actualPrice ? '+' : ''}${formatIndianPrice(guess - actualPrice).replace('₹', '₹')}</div>
+                </div>
+                <div class="points-earned">+${points} POINTS</div>
             `;
 
             document.getElementById('score').textContent = score;
-            document.getElementById('streak').textContent = streak + '🔥';
+            document.getElementById('streak').textContent = streak;
             document.getElementById('guessBtn').classList.add('hidden');
             document.getElementById('guessInput').disabled = true;
+            document.getElementById('guessBtn').disabled = true;
 
             if (currentRound < 5) {
                 document.getElementById('nextBtn').classList.remove('hidden');
@@ -406,24 +652,40 @@
             document.getElementById('gameArea').classList.add('hidden');
             document.getElementById('gameOver').classList.remove('hidden');
             document.getElementById('finalScore').textContent = score;
+            document.getElementById('bestStreak').textContent = bestStreak;
+            document.getElementById('perfectGuesses').textContent = perfectGuesses;
             
-            let emoji = '🎉';
-            if (score >= 400) emoji = '🏆';
-            else if (score >= 300) emoji = '🌟';
-            else if (score >= 200) emoji = '👏';
-            else if (score >= 100) emoji = '😊';
-            else emoji = '😅';
+            let emoji, message;
+            if (score >= 400) {
+                emoji = '🏆';
+                message = 'Outstanding! You\'re a pricing expert!';
+            } else if (score >= 300) {
+                emoji = '🌟';
+                message = 'Excellent work! Great instincts!';
+            } else if (score >= 200) {
+                emoji = '👏';
+                message = 'Good job! Keep practicing!';
+            } else if (score >= 100) {
+                emoji = '😊';
+                message = 'Not bad! Room for improvement!';
+            } else {
+                emoji = '😅';
+                message = 'Keep trying! You\'ll get better!';
+            }
             
             document.getElementById('finalEmoji').textContent = emoji;
+            document.getElementById('finalMessage').textContent = message;
         }
 
         function restartGame() {
             currentRound = 0;
             score = 0;
             streak = 0;
+            bestStreak = 0;
+            perfectGuesses = 0;
             usedProducts = [];
             document.getElementById('score').textContent = '0';
-            document.getElementById('streak').textContent = '0🔥';
+            document.getElementById('streak').textContent = '0';
             document.getElementById('round').textContent = '1/5';
             document.getElementById('gameArea').classList.remove('hidden');
             document.getElementById('gameOver').classList.add('hidden');
@@ -432,7 +694,7 @@
 
         // Allow Enter key to submit
         document.getElementById('guessInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('guessBtn').classList.contains('hidden')) {
+            if (e.key === 'Enter' && !document.getElementById('guessBtn').disabled) {
                 submitGuess();
             }
         });
